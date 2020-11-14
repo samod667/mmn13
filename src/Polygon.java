@@ -2,6 +2,7 @@
  * Polygon class represents a polygon on the first positive quarter only in the cartesian system.
  *
  * @author Dor Samoha
+ * ID: 312503287
  * @version Nov 6th, 2020
  */
 public class Polygon {
@@ -72,6 +73,15 @@ public class Polygon {
         }
         return new Point(p);
     }
+
+    private String printArray(){
+        String counterString = "";
+        for (int i = 0; i < _noOfVertices - 1; i++) {
+            counterString += "("+_vertices[i].getX()+ ","+_vertices[i].getY()+"),";
+        }
+        counterString += "("+_vertices[_noOfVertices - 1].getX() + "," + _vertices[_noOfVertices - 1].getY()+")";
+        return counterString;
+    }
     ////////////////////////////////////////
 
     ///METHODS/////////////////////////////
@@ -86,9 +96,10 @@ public class Polygon {
     public boolean addVertex(double x, double y) {
         if (_noOfVertices == MAX_NUM_OF_VERTICES) {
             return false;
+        } else{
+            _vertices[_noOfVertices++] = new Point(x, y);
+            return true;
         }
-        _vertices[_noOfVertices++] = new Point(x, y);
-        return true;
     }
 
     /**
@@ -112,12 +123,8 @@ public class Polygon {
 
     public String toString() {
         if(_noOfVertices != 0){
-            String counterString = "("+_vertices[0].toString();
-            for (int i = 1; i < _noOfVertices; i++) {
-                counterString += "," + _vertices[i].toString();
-            }
-            return "The polygon has " + _noOfVertices + " vertices: \n" + counterString + ")";
-        } else {
+            return "The polygon has " + _noOfVertices + " vertices:\n" + "("+ printArray()+")";
+        } else{
             return "The polygon has " + _noOfVertices + " vertices.";
         }
     }
@@ -137,6 +144,7 @@ public class Polygon {
             for (int i = 1; i < _noOfVertices; i++) {
               perimeter += calculateSegmentLength(_vertices[i - 1], _vertices[i]);
             }
+            perimeter += calculateSegmentLength(_vertices[0], _vertices[_noOfVertices - 1]);
             return perimeter;
         }
     }
