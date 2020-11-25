@@ -6,13 +6,14 @@
  * @version Nov 6th, 2020
  */
 public class Polygon {
-///DECLARING VARIABLES///////
+    ///DECLARING VARIABLES///////
     Point[] _vertices;
     int _noOfVertices;
 
     private final int MAX_NUM_OF_VERTICES = 10;
     private final double POWER_OF_TWO = 2.0;
     /////////////////////////////////////
+
     /**
      * Instantiates a new Polygon with default values.
      */
@@ -25,16 +26,16 @@ public class Polygon {
 
     ///HELPER PRIVATE METHODS///////////////////////
 
-    private double calculateTrianglePerimeter(Point a, Point b, Point c){
+    private double calculateTrianglePerimeter(Point a, Point b, Point c) {
         double aLength = calculateSegmentLength(a, b);
-        double bLength = calculateSegmentLength(b,c);
+        double bLength = calculateSegmentLength(b, c);
         double cLength = calculateSegmentLength(c, a);
 
         return aLength + bLength + cLength;
     }
 
-    private double calculateSegmentLength(Point a, Point b){
-        if(a.getY() == b.getY()){
+    private double calculateSegmentLength(Point a, Point b) {
+        if (a.getY() == b.getY()) {
             return Math.abs(a.getX() - b.getX());
         } else {
             return Math.sqrt(Math.pow(a.getX() - b.getX(), POWER_OF_TWO) + Math.pow(a.getY() - b.getY(), POWER_OF_TWO));
@@ -42,44 +43,44 @@ public class Polygon {
 
     }
 
-    private Point lowestPoint(){
+    private Point lowestPoint() {
         Point p = _vertices[0];
         for (int i = 0; i < _noOfVertices; i++) {
-            if(_vertices[i].isUnder(p)){
+            if (_vertices[i].isUnder(p)) {
                 p = _vertices[i];
             }
         }
         return new Point(p);
     }
 
-    private Point leftestPoint(){
+    private Point leftestPoint() {
         Point p = _vertices[0];
 
         for (int i = 0; i < _noOfVertices; i++) {
-            if(_vertices[i].isLeft(p)){
+            if (_vertices[i].isLeft(p)) {
                 p = _vertices[i];
             }
         }
         return new Point(p);
     }
 
-    private Point rightestPoint(){
+    private Point rightestPoint() {
         Point p = _vertices[0];
 
         for (int i = 0; i < _noOfVertices; i++) {
-            if(_vertices[i].isRight(p)){
+            if (_vertices[i].isRight(p)) {
                 p = _vertices[i];
             }
         }
         return new Point(p);
     }
 
-    private String printArray(){
+    private String printArray() {
         String counterString = "";
         for (int i = 0; i < _noOfVertices - 1; i++) {
-            counterString += "("+_vertices[i].getX()+ ","+_vertices[i].getY()+"),";
+            counterString += "(" + _vertices[i].getX() + "," + _vertices[i].getY() + "),";
         }
-        counterString += "("+_vertices[_noOfVertices - 1].getX() + "," + _vertices[_noOfVertices - 1].getY()+")";
+        counterString += "(" + _vertices[_noOfVertices - 1].getX() + "," + _vertices[_noOfVertices - 1].getY() + ")";
         return counterString;
     }
     ////////////////////////////////////////
@@ -96,7 +97,7 @@ public class Polygon {
     public boolean addVertex(double x, double y) {
         if (_noOfVertices == MAX_NUM_OF_VERTICES) {
             return false;
-        } else{
+        } else {
             _vertices[_noOfVertices++] = new Point(x, y);
             return true;
         }
@@ -122,9 +123,9 @@ public class Polygon {
     }
 
     public String toString() {
-        if(_noOfVertices != 0){
-            return "The polygon has " + _noOfVertices + " vertices:\n" + "("+ printArray()+")";
-        } else{
+        if (_noOfVertices != 0) {
+            return "The polygon has " + _noOfVertices + " vertices:\n" + "(" + printArray() + ")";
+        } else {
             return "The polygon has " + _noOfVertices + " vertices.";
         }
     }
@@ -134,15 +135,15 @@ public class Polygon {
      *
      * @return 0 if Polygon has 1-2 points. If Polygon has 2 points value return is the length of the segment. Otherwise the whole perimeter of Polygon will be returned
      */
-    public double calcPerimeter(){
-        if(_noOfVertices == 0 || _noOfVertices == 1){
+    public double calcPerimeter() {
+        if (_noOfVertices == 0 || _noOfVertices == 1) {
             return 0;
-        } else if(_noOfVertices == 2){
+        } else if (_noOfVertices == 2) {
             return calculateSegmentLength(_vertices[0], _vertices[1]);
         } else {
             double perimeter = 0;
             for (int i = 1; i < _noOfVertices; i++) {
-              perimeter += calculateSegmentLength(_vertices[i - 1], _vertices[i]);
+                perimeter += calculateSegmentLength(_vertices[i - 1], _vertices[i]);
             }
             perimeter += calculateSegmentLength(_vertices[0], _vertices[_noOfVertices - 1]);
             return perimeter;
@@ -154,26 +155,26 @@ public class Polygon {
      *
      * @return The area of the Polygon. If the Polygon has less then 3 point, 0 will be returned.
      */
-    public double calcArea(){
+    public double calcArea() {
         double area = 0;
 
-        if(_noOfVertices < 3){
+        if (_noOfVertices < 3) {
             return 0;
-        } else{
+        } else {
 
             for (int i = 1; i < _noOfVertices - 1; i++) {
                 Point a = _vertices[0];
                 Point b = _vertices[i];
                 Point c = _vertices[i + 1];
 
-                double ab = calculateSegmentLength(a,b);
-                double bc = calculateSegmentLength(b,c);
-                double ca = calculateSegmentLength(c,a);
+                double ab = calculateSegmentLength(a, b);
+                double bc = calculateSegmentLength(b, c);
+                double ca = calculateSegmentLength(c, a);
 
-                double s = calculateTrianglePerimeter(a, b ,c) / POWER_OF_TWO;
+                double s = calculateTrianglePerimeter(a, b, c) / POWER_OF_TWO;
 
 
-                area += Math.sqrt(s*(s-ab)*(s-bc)*(s-ca));
+                area += Math.sqrt(s * (s - ab) * (s - bc) * (s - ca));
             }
         }
         return area;
@@ -185,7 +186,7 @@ public class Polygon {
      * @param other the other Polygon
      * @return true if this Polygon is bigger. if other Polygon is bigger false will be returned
      */
-    public boolean isBigger(Polygon other){
+    public boolean isBigger(Polygon other) {
         return this.calcArea() > other.calcArea();
     }
 
@@ -195,9 +196,9 @@ public class Polygon {
      * @param p the reference vertex to look for
      * @return the index number of the vertex in the vertices array
      */
-    public int findVertex(Point p){
+    public int findVertex(Point p) {
         for (int i = 0; i < _noOfVertices; i++) {
-            if(_vertices[i].equals(p)){
+            if (_vertices[i].equals(p)) {
                 return i;
             }
         }
@@ -210,15 +211,15 @@ public class Polygon {
      * @param p the reference point
      * @return The next vertex in the array
      */
-    public Point getNextVertex(Point p){
-        if(_noOfVertices == 1){
+    public Point getNextVertex(Point p) {
+        if (_noOfVertices == 1) {
             return new Point(_vertices[0]);
-        }else{
+        } else {
             for (int i = 0; i < _noOfVertices; i++) {
-                if(_vertices[i].equals(p)){
-                    if(i == _noOfVertices - 1){
+                if (_vertices[i].equals(p)) {
+                    if (i == _noOfVertices - 1) {
                         return new Point(_vertices[0]);
-                    } else{
+                    } else {
                         return new Point(_vertices[i + 1]);
                     }
                 }
@@ -232,10 +233,10 @@ public class Polygon {
      *
      * @return the bounding square as Polygon. If this Polygon has less then 3 vertices, return null
      */
-    public Polygon getBoundingBox(){
+    public Polygon getBoundingBox() {
         Polygon boundingBox = new Polygon();
 
-        if(_noOfVertices < 3){
+        if (_noOfVertices < 3) {
             return null;
         }
 
