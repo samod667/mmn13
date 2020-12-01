@@ -1,5 +1,5 @@
 /**
- * Polygon class represents a polygon on the first positive quarter only in the cartesian system.
+ * Polygon class represents a polygon on the first positive quarter in the cartesian system.
  *
  * @author Dor Samoha
  * ID: 312503287
@@ -209,23 +209,15 @@ public class Polygon {
      * Gets the next vertex in the array. If the reference point is the last vertex in the array, the first vertex will be returned. If there is only one vertex in array, it will be returned
      *
      * @param p the reference point
-     * @return The next vertex in the array
+     * @return The next vertex in the array. If there is one vertex in the array, the same vertex will be returned.
      */
     public Point getNextVertex(Point p) {
-        if (_noOfVertices == 1) {
-            return new Point(_vertices[0]);
-        } else {
-            for (int i = 0; i < _noOfVertices; i++) {
-                if (_vertices[i].equals(p)) {
-                    if (i == _noOfVertices - 1) {
-                        return new Point(_vertices[0]);
-                    } else {
-                        return new Point(_vertices[i + 1]);
-                    }
-                }
-            }
+        int indexOfPoint = findVertex(p);
+        if(indexOfPoint < 0){
+            return null;
         }
-        return null;
+        int indexOfNextVertex = (indexOfPoint + 1)%_noOfVertices;
+        return new Point(_vertices[indexOfNextVertex]);
     }
 
     /**
